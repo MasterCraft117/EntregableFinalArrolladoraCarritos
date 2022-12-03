@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd577ffeac589cd72a99ea241649710f, type: 3}
+  m_Name: Basura
+  m_EditorClassIdentifier: 
+  escala: 0.5
+  prefabDeModelo: {fileID: 3914206577793605397, guid: 238f546b0198fac4886fa050b756a4a5, type: 3}
