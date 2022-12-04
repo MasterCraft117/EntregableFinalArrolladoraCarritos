@@ -96,6 +96,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7016020133083651673, guid: f430073c636116b4b9c0f5e6ddcde097, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016020133083651673, guid: f430073c636116b4b9c0f5e6ddcde097, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016020133083651673, guid: f430073c636116b4b9c0f5e6ddcde097, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016020133083651673, guid: f430073c636116b4b9c0f5e6ddcde097, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -137,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644360707672163555, guid: f430073c636116b4b9c0f5e6ddcde097, type: 3}
       propertyPath: m_Name
-      value: Free Racing Car Gray VariantCamara
+      value: Free Racing Car Gray VariantCamara Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f430073c636116b4b9c0f5e6ddcde097, type: 3}

@@ -12,9 +12,18 @@ public class CarDataManager : MonoBehaviour
 
     private CarroSO[] _carritosScriptableObjects;
 
+    //Referencias a objetos luces de semaforos
+    [SerializeField]
+    private GameObject[] _listaSemaforos;
+
+    
+
     private GameObject[] _carrosGO;
     private GameObject[] _carrosGOS;
     //private ScriptableObject[] _carrosGOS;
+
+    //Declaracion de Semaforos
+    //private GameObject[] _semaforos;
 
     private Vector3[] _direcciones;
 
@@ -24,6 +33,7 @@ public class CarDataManager : MonoBehaviour
         _carrosGO = new GameObject[_listaDeCarros.Length];
         _carrosGOS = new GameObject[_carritosScriptableObjects.Length];
         //_carrosGOS = new ScriptableObject[_carritosScriptableObjects.Length];
+        //_semaforos = new GameObject[_listaSemaforos.Length];
 
         // activarlos por primera vez
         for (int i = 0; i < _listaDeCarros.Length; i++)
@@ -50,6 +60,16 @@ public class CarDataManager : MonoBehaviour
 
         //PosicionarCarros();
         PosicionarCarrosS();
+
+        //ajuste a la escala de los autos
+        for (int i = 0; i < _carritosScriptableObjects.Length; i++)
+        {
+            _carrosGOS[i].transform.localScale = new Vector3(
+                _carrosGOS[i].transform.localScale.x * 4,
+                _carrosGOS[i].transform.localScale.y * 4,
+                _carrosGOS[i].transform.localScale.z * 4
+                );
+        }
     }
 
     private void PosicionarCarros() {
@@ -75,14 +95,16 @@ public class CarDataManager : MonoBehaviour
                Random.Range(0f, 10f)
             );
             */
-            _carrosGOS[i].transform.localScale = new Vector3(6,6,6);
+            
 
             _carrosGOS[i].transform.position = new Vector3(
                 _listaDeCarros[i].x,
                 _listaDeCarros[i].y,
                 _listaDeCarros[i].z
+                
+                
             );
-            Debug.Log(i);
+            //Debug.Log(i);
         }
     }
 
@@ -122,14 +144,20 @@ public class CarDataManager : MonoBehaviour
             for (int i = 0; i < _carrosGOS.Length; i++)
             {
                 //Vuelve a su orientacion original para aplicar correctamente el translate
-                _carrosGOS[i].transform.forward = Vector3.forward;
+                //_carrosGOS[i].transform.forward = Vector3.forward;
 
                 //desplazar utilizando vectores
-                _carrosGOS[i].transform.Translate(_direcciones[i] * Time.deltaTime);
+                //_carrosGOS[i].transform.Translate(_direcciones[i] * Time.deltaTime);
 
-                //modificar orientación de vehículo
-                _carrosGOS[i].transform.forward = _direcciones[i].normalized;
+                //modificar orientaciï¿½n de vehï¿½culo
+                //_carrosGOS[i].transform.forward = _direcciones[i].normalized;
             }
+        }
+
+        
+        for (int i = 0; i < _carrosGOS.Length; i++)
+        {
+            _carrosGOS[i].transform.rotation = Quaternion.Euler(0, _listaDeCarros[i].dir, 0);
         }
     }
 
@@ -158,13 +186,38 @@ public class CarDataManager : MonoBehaviour
     {
         for(int i = 0; i < datos.frames.Length; i++)
         {
-            //Actualizar posición
-            _listaDeCarros = datos.frames[i].cars;
+            
+
+            //Actualizacion semaforos
+            for (int j = 0; j < _listaSemaforos.Length; j++)
+            {
+                if (datos.frames[i].semaphores[j].state == 0)
+                {
+                    //_listaSemaforos[0].SetActive(false);
+                    _listaSemaforos[j].GetComponent<Light>().color = Color.green;
+                }
+                else if (datos.frames[i].semaphores[j].state == 1)
+                {
+                    //_listaSemaforos[0].SetActive(false);
+                    _listaSemaforos[j].GetComponent<Light>().color = Color.yellow;
+                }
+                else if (datos.frames[i].semaphores[j].state == 2)
+                {
+                    //_listaSemaforos[0].SetActive(true);
+                    _listaSemaforos[j].GetComponent<Light>().color = Color.red;
+                }
+            }
+            
+            //Actualizar posiciï¿½n
+            _listaDeCarros = datos.frames[i].cars; //Llenado de lista de carros con la informacion del JSON sobre las caracteristicas de estos
+
+            //_listaSemaforos = datos.frames[i].semaphores; //Llenado de lista de semaforos con la informacion del JSON
+
             PosicionarCarrosS();
 
                 
 
-            //Recalcular dirección
+            //Recalcular direcciï¿½n
 
             for (int j = 0; j < _direcciones.Length; j++)
             {
@@ -186,7 +239,12 @@ public class CarDataManager : MonoBehaviour
 
 
             //Espera un poquito
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.1f);
+
+            if (i == datos.frames.Length - 1)
+            {
+                i = 0;
+            }
         }
     }
 }

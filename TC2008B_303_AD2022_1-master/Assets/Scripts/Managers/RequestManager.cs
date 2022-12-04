@@ -136,6 +136,36 @@ public class RequestManager : MonoBehaviour
     //Ejemplo por si sólo se hace 1 request al inicio
     IEnumerator Request()
     {
+        ListaCarro listaCarro = new ListaCarro(); ;
+        //Request
+        // empezamos haciendo request
+        UnityWebRequest www = UnityWebRequest.Get(_urlRequest);
+
+        // como en cualquier request este asunto es asíncrono
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("PROBLEMA EN REQUEST");
+        }
+        else
+        {
+            print(www.downloadHandler.text);
+
+            // hacer parsing de JSON
+            listaCarro = JsonUtility.FromJson<ListaCarro>(
+                www.downloadHandler.text
+            );
+
+
+            // cuando decidamos avisarle a los observadores
+            // utilizamos lo siguiente:
+            //_requestSinArgumento?.Invoke();
+
+            //_requestConArgumento?.Invoke(listaCarro);
+        }
+
+        //yield return new WaitForSeconds(1);
 
         // 1. hacer request
         // 2. parsear datos en string a json
@@ -151,7 +181,8 @@ public class RequestManager : MonoBehaviour
         // PERO ESTO DEBE SER RESULTADO DEL PARSING DEL JSON
         ListaCarro datos = new ListaCarro();
 
-        datos = JsonUtility.FromJson<ListaCarro>(jsonData.text);
+        datos = listaCarro;
+        //datos = JsonUtility.FromJson<ListaCarro>(jsonData.text);
 
         //Datos hardcodeados
         //datos.frames = new Step[50];
